@@ -6,6 +6,7 @@ from database import get_db
 import models
 import schemas
 from router.auth import verify_admin_token
+from notifications import send_new_message_notification
 
 router = APIRouter(prefix="/api/messages", tags=["Client Pipeline Inbox Requests"])
 
@@ -26,6 +27,10 @@ def transmit_client_message(payload: schemas.MessageCreate, db: Session = Depend
     )
     db.add(new_message)
     db.commit()
+
+    # Best-effort email alert — never blocks or fails the actual submission.
+    send_new_message_notification(new_message)
+
     return {"success": True, "id": generated_id}
 
 
