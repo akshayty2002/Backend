@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from config import settings
 
-SQLALCHEMY_DATABASE_URL = "https://app.netlify.com/projects/crtlshift/database"
+SQLALCHEMY_DATABASE_URL = f"sqlite:///./{settings.DB_FILE}"
 
 # connect_args={"check_same_thread": False} is required specifically for SQLite
 engine = create_engine(
