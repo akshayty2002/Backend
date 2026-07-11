@@ -6,6 +6,14 @@ class Settings:
     VERSION: str = "2.1.0"
     DB_FILE: str = "database.db"
 
+    # Postgres connection string. Render auto-sets this when you attach a
+    # Postgres database to this service (Environment tab will show it as
+    # linked, or you can copy the "Internal Database URL" manually).
+    # If unset, falls back to local SQLite (see database.py) — fine for
+    # local dev, but NOT durable on Render's free tier (data resets on
+    # every restart/sleep-wake cycle).
+    DATABASE_URL: str = os.environ.get("DATABASE_URL", "")
+
     # Admin passcode is read from the environment if set, otherwise falls
     # back to this default. Change ADMIN_PASSCODE via environment variable
     # for anything beyond local dev — don't rely on the fallback in production.
